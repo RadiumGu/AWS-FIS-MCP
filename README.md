@@ -1,10 +1,10 @@
-# AWS Fault Injection Service (FIS) FastMCP Server
+# AWS Fault Injection Service (FIS) MCP Server
 
-This FastMCP server provides tools for working with AWS Fault Injection Service (FIS), allowing users to create, manage, and execute fault injection experiments through Amazon Q.
+This MCP server provides tools for working with AWS Fault Injection Service (FIS), allowing users to create, manage, and execute fault injection experiments.
 
 ## Overview
 
-AWS Fault Injection Service (FIS) is a managed service that enables you to perform fault injection experiments on your AWS workloads. This FastMCP server extends Amazon Q's capabilities to interact with FIS, making it easier to create and manage chaos engineering experiments.
+AWS Fault Injection Service (FIS) is a managed service that enables you to perform fault injection experiments on your AWS workloads. This MCP server extends Amazon Q's capabilities to interact with FIS, making it easier to create and manage chaos engineering experiments.
 
 ## Features
 
@@ -21,12 +21,12 @@ AWS Fault Injection Service (FIS) is a managed service that enables you to perfo
 pip install -e .
 ```
 
-2. Run the FastMCP server:
+2. Run the MCP server:
 ```bash
 uv run aws_fis_mcp/server.py
 ```
 
-3. Connect to your FastMCP server with Amazon Q Developer CLI:
+3. Connect to your MCP server with Amazon Q Developer CLI:
 ```json
  "aws_fis_mcp": {
       "command": "uv",
