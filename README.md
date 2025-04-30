@@ -4,7 +4,7 @@ This MCP server provides tools for working with AWS Fault Injection Service (FIS
 
 ## Overview
 
-AWS Fault Injection Service (FIS) is a managed service that enables you to perform fault injection experiments on your AWS workloads. This MCP server extends Amazon Q's capabilities to interact with FIS, making it easier to create and manage chaos engineering experiments.
+AWS Fault Injection Service (FIS) is a managed service that enables you to perform fault injection experiments on your AWS workloads. This MCP server provides capabilities to interact with FIS, making it easier to create and manage chaos engineering experiments.
 
 ## Features
 
@@ -16,17 +16,21 @@ AWS Fault Injection Service (FIS) is a managed service that enables you to perfo
 
 ## Installation
 
-1. Ensure you have the required dependencies:
+1. Install `uv` from [Astral](https://docs.astral.sh/uv/getting-started/installation/) or the [GitHub README](https://github.com/astral-sh/uv#installation)
+
+2. Install Python using `uv python install 3.10`
+
+3. Ensure you have the required dependencies:
 ```bash
 pip install -e .
 ```
 
-2. Run the MCP server:
+4. Run the MCP server:
 ```bash
 uv run aws_fis_mcp/server.py
 ```
 
-3. Connect to your MCP server with Amazon Q Developer CLI:
+5. Connect to your MCP server with Amazon Q Developer CLI:
 ```json
  "aws_fis_mcp": {
       "command": "uv",
