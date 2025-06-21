@@ -16,30 +16,48 @@ AWS Fault Injection Service (FIS) is a managed service that enables you to perfo
 
 ## Installation
 
-1. Install `uv` from [Astral](https://docs.astral.sh/uv/getting-started/installation/) or the [GitHub README](https://github.com/astral-sh/uv#installation)
+1. Clone the repository:
+```bash
+git clone https://github.com/RadiumGu/AWS-FIS-MCP.git
+cd AWS-FIS-MCP
+```
 
-2. Install Python using `uv python install 3.10`
+2. Install `uv` from [Astral](https://docs.astral.sh/uv/getting-started/installation/) or the [GitHub README](https://github.com/astral-sh/uv#installation)
 
-3. Ensure you have the required dependencies:
+3. Install Python using `uv python install 3.10`
+
+4. Ensure you have the required dependencies:
 ```bash
 pip install -e .
 ```
 
-4. Run the MCP server:
+5. Run the MCP server:
 ```bash
 uv run aws_fis_mcp/server.py
 ```
 
 5. Connect to your MCP server with Amazon Q Developer CLI:
 ```json
- "aws_fis_mcp": {
-      "command": "uv",
-      "args": ["--directory","[your dir]","run","aws_fis_mcp/server.py"],
-      "env": {
-        "MCP_TRANSPORT": "stdio"
-      }
-  } 
+"aws_fis_mcp": {
+    "autoApprove": [],
+    "disabled": false,
+    "command": "uv",
+    "args": [
+        "--directory",
+        "/home/ec2-user/mcp-servers/fis-mcp",
+        "run",
+        "aws_fis_mcp/server.py"
+    ],
+    "env": {
+        "MCP_TRANSPORT": "stdio",
+        "AWS_PROFILE": "default",
+        "AWS_REGION": "us-east-2"
+    },
+    "transportType": "stdio"
+}
 ```
+
+Alternatively, you can use the provided `mcp_config.json` file as a reference for your MCP configuration.
 
 ## Available Tools
 

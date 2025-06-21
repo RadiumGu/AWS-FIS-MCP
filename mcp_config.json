@@ -1,0 +1,21 @@
+{
+    "mcp_configuration": {
+        "aws_fis_mcp": {
+            "autoApprove": [],
+            "disabled": false,
+            "command": "uv",
+            "args": [
+                "--directory",
+                "/home/ec2-user/mcp-servers/fis-mcp",
+                "run",
+                "aws_fis_mcp/server.py"
+            ],
+            "env": {
+                "MCP_TRANSPORT": "stdio",
+                "AWS_PROFILE": "default",
+                "AWS_REGION": "us-east-2"
+            },
+            "transportType": "stdio"
+        }
+    }
+}
