@@ -2,9 +2,30 @@
 
 import json
 import uuid
+from datetime import datetime
 from typing import Dict, List, Any, Optional
 
 import boto3
+
+
+def _serialize_datetime(obj: Any) -> Any:
+    """
+    Recursively serialize datetime objects to ISO format strings.
+    
+    Args:
+        obj: Object that may contain datetime objects
+        
+    Returns:
+        Object with datetime objects converted to ISO format strings
+    """
+    if isinstance(obj, datetime):
+        return obj.isoformat()
+    elif isinstance(obj, dict):
+        return {key: _serialize_datetime(value) for key, value in obj.items()}
+    elif isinstance(obj, list):
+        return [_serialize_datetime(item) for item in obj]
+    else:
+        return obj
 
 
 def list_experiment_templates(region: str = "us-east-1") -> str:
@@ -122,20 +143,13 @@ def get_experiment(experiment_id: str, region: str = "us-east-1") -> str:
         fis = boto3.client('fis', region_name=region)
         response = fis.get_experiment(id=experiment_id)
         
-        # Format the response for better readability
+        # Get the raw experiment data
         experiment = response.get('experiment', {})
-        formatted_experiment = {
-            'id': experiment.get('id'),
-            'experimentTemplateId': experiment.get('experimentTemplateId'),
-            'state': experiment.get('state', {}),
-            'targets': experiment.get('targets', {}),
-            'actions': experiment.get('actions', {}),
-            'startTime': experiment.get('startTime').isoformat() if experiment.get('startTime') else None,
-            'endTime': experiment.get('endTime').isoformat() if experiment.get('endTime') else None,
-            'tags': experiment.get('tags', {})
-        }
         
-        return json.dumps(formatted_experiment, indent=2)
+        # Use the recursive datetime serializer to handle all datetime objects
+        serialized_experiment = _serialize_datetime(experiment)
+        
+        return json.dumps(serialized_experiment, indent=2)
     except Exception as e:
         return f"Error retrieving experiment: {str(e)}"
 
@@ -164,17 +178,11 @@ def start_experiment(template_id: str, region: str = "us-east-1", client_token: 
             clientToken=client_token
         )
         
-        # Format the response for better readability
+        # Get the raw experiment data and serialize datetime objects
         experiment = response.get('experiment', {})
-        formatted_experiment = {
-            'id': experiment.get('id'),
-            'experimentTemplateId': experiment.get('experimentTemplateId'),
-            'state': experiment.get('state', {}).get('status'),
-            'startTime': experiment.get('startTime').isoformat() if experiment.get('startTime') else None,
-            'tags': experiment.get('tags', {})
-        }
+        serialized_experiment = _serialize_datetime(experiment)
         
-        return json.dumps(formatted_experiment, indent=2)
+        return json.dumps(serialized_experiment, indent=2)
     except Exception as e:
         return f"Error starting experiment: {str(e)}"
 
@@ -194,18 +202,11 @@ def stop_experiment(experiment_id: str, region: str = "us-east-1") -> str:
         fis = boto3.client('fis', region_name=region)
         response = fis.stop_experiment(id=experiment_id)
         
-        # Format the response for better readability
+        # Get the raw experiment data and serialize datetime objects
         experiment = response.get('experiment', {})
-        formatted_experiment = {
-            'id': experiment.get('id'),
-            'experimentTemplateId': experiment.get('experimentTemplateId'),
-            'state': experiment.get('state', {}).get('status'),
-            'startTime': experiment.get('startTime').isoformat() if experiment.get('startTime') else None,
-            'endTime': experiment.get('endTime').isoformat() if experiment.get('endTime') else None,
-            'tags': experiment.get('tags', {})
-        }
+        serialized_experiment = _serialize_datetime(experiment)
         
-        return json.dumps(formatted_experiment, indent=2)
+        return json.dumps(serialized_experiment, indent=2)
     except Exception as e:
         return f"Error stopping experiment: {str(e)}"
 

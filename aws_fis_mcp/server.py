@@ -1,5 +1,6 @@
 """AWS FIS FastMCP Server implementation."""
 
+import sys
 from mcp.server.fastmcp import FastMCP
 
 from aws_fis_mcp.tools import (
@@ -32,6 +33,8 @@ app.tool()(generate_template_example)
 
 def run_server():
     """Run the FastMCP server."""
+    print("Starting AWS FIS MCP server...", file=sys.stderr)
+    print("Server is ready to accept connections.", file=sys.stderr)
     app.run()
 
 if __name__ == "__main__":
