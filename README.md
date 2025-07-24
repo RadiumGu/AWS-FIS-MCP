@@ -26,17 +26,19 @@ cd AWS-FIS-MCP
 
 3. Install Python using `uv python install 3.10`
 
-4. Ensure you have the required dependencies:
+4. Set up a virtual environment:
 ```bash
-pip install -e .
+uv venv
+source .venv/bin/activate
+uv pip install -e .
 ```
 
 5. Run the MCP server:
 ```bash
-uv run aws_fis_mcp/server.py
+python aws_fis_mcp/server.py
 ```
 
-5. Connect to your MCP server with Amazon Q Developer CLI:
+6. Connect to your MCP server with Amazon Q Developer CLI:
 ```json
 "aws_fis_mcp": {
     "autoApprove": [],
