@@ -35,7 +35,7 @@ uv pip install -e .
 
 5. Run the MCP server:
 ```bash
-python aws_fis_mcp/server.py
+uv run aws_fis_mcp/server.py
 ```
 
 6. Connect to your MCP server with Amazon Q Developer CLI:
