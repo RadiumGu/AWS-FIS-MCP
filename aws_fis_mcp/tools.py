@@ -293,24 +293,24 @@ def list_action_types(region: str = "us-east-1") -> str:
     """
     try:
         fis = boto3.client('fis', region_name=region)
-        response = fis.list_action_types()
+        response = fis.list_actions()  # Fixed: Changed from list_action_types() to list_actions()
         
-        if not response.get('actionTypes'):
-            return "No action types found in region " + region
+        if not response.get('actions'):  # Fixed: Changed from 'actionTypes' to 'actions'
+            return "No actions found in region " + region
         
         # Format the response for better readability
-        action_types = []
-        for action_type in response['actionTypes']:
-            action_types.append({
-                'id': action_type.get('id'),
-                'description': action_type.get('description'),
-                'targets': action_type.get('targets', {}),
-                'parameters': action_type.get('parameters', {})
+        actions = []
+        for action in response['actions']:  # Fixed: Changed from 'actionTypes' to 'actions'
+            actions.append({
+                'id': action.get('id'),
+                'description': action.get('description'),
+                'targets': action.get('targets', {}),
+                'parameters': action.get('parameters', {})
             })
         
-        return json.dumps(action_types, indent=2)
+        return json.dumps(actions, indent=2)
     except Exception as e:
-        return f"Error listing action types: {str(e)}"
+        return f"Error listing actions: {str(e)}"
 
 
 def generate_template_example(
