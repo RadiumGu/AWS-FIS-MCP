@@ -37,9 +37,5 @@ def run_server():
     print("Server is ready to accept connections.", file=sys.stderr)
     app.run()
 
-def main():
-    """Main entry point for the application."""
-    run_server()
-
 if __name__ == "__main__":
-    main()
+    run_server()

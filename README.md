@@ -14,7 +14,35 @@ AWS Fault Injection Service (FIS) is a managed service that enables you to perfo
 - List available action types
 - Generate example templates
 
-## Installation
+## Installation and Usage
+
+### Option 1: Using uvx (Recommended)
+
+The easiest way to run the server is using `uvx`. This method doesn't require managing virtual environments:
+
+```bash
+# Run directly with uvx (installs and runs in one command)
+uvx aws-fis-mcp
+
+# Or run from GitHub directly
+uvx --from git+https://github.com/RadiumGu/AWS-FIS-MCP.git aws-fis-mcp
+
+# Or install from local directory
+cd /home/ec2-user/mcp-servers/AWS-FIS-MCP
+uvx --from . aws-fis-mcp
+```
+
+### Option 2: Using pip install
+
+```bash
+# Install globally or in a virtual environment
+pip install aws-fis-mcp
+
+# Then run
+aws-fis-mcp
+```
+
+### Option 3: Local Development Setup
 
 1. Clone the repository:
 ```bash
@@ -35,31 +63,72 @@ uv pip install -e .
 
 5. Run the MCP server:
 ```bash
-uv run aws_fis_mcp/server.py
+# Using the installed script
+aws-fis-mcp
+
+# Or using python -m
+python -m aws_fis_mcp
+
+# Or using uv run
+uv run main.py
 ```
 
-6. Connect to your MCP server with Amazon Q Developer CLI:
+## MCP Client Configuration
+
+### For uvx usage (Recommended):
 ```json
-"aws_fis_mcp": {
-    "autoApprove": [],
-    "disabled": false,
-    "command": "uv",
-    "args": [
-        "--directory",
-        "/home/ec2-user/mcp-servers/fis-mcp",
-        "run",
-        "aws_fis_mcp/server.py"
-    ],
-    "env": {
-        "MCP_TRANSPORT": "stdio",
+{
+  "mcpServers": {
+    "aws_fis_mcp": {
+      "command": "uvx",
+      "args": ["aws-fis-mcp"],
+      "env": {
         "AWS_PROFILE": "default",
-        "AWS_REGION": "us-east-2"
-    },
-    "transportType": "stdio"
+        "AWS_REGION": "us-east-1"
+      },
+      "transportType": "stdio"
+    }
+  }
 }
 ```
 
-Alternatively, you can use the provided `mcp_config.json` file as a reference for your MCP configuration.
+### For pip installed version:
+```json
+{
+  "mcpServers": {
+    "aws_fis_mcp": {
+      "command": "aws-fis-mcp",
+      "env": {
+        "AWS_PROFILE": "default",
+        "AWS_REGION": "us-east-1"
+      },
+      "transportType": "stdio"
+    }
+  }
+}
+```
+
+### For local development:
+```json
+{
+  "mcpServers": {
+    "aws_fis_mcp": {
+      "command": "uv",
+      "args": [
+        "--directory",
+        "/home/ec2-user/mcp-servers/AWS-FIS-MCP",
+        "run",
+        "main.py"
+      ],
+      "env": {
+        "AWS_PROFILE": "default",
+        "AWS_REGION": "us-east-1"
+      },
+      "transportType": "stdio"
+    }
+  }
+}
+```
 
 ## Available Tools
 
